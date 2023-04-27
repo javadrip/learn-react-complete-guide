@@ -4,6 +4,7 @@ import "./Expenses.css";
 
 const Expenses = props => {
   return (
+    // The content between the Card tags is passed to the Card component as props.children.
     <Card className="expenses">
       <ExpenseItem
         title={props.items[0].title}
