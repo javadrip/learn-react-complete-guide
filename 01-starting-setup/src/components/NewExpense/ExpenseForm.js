@@ -97,8 +97,8 @@ const ExpenseForm = () => {
           <label>Title</label>
           <input
             type="text"
-            // value={enteredTitle} makes
-            // value={enteredTitle}
+            // value={enteredTitle} stores the value of the input field
+            value={enteredTitle}
             onChange={titleChangeHandler}
           />
         </div>
@@ -108,7 +108,7 @@ const ExpenseForm = () => {
             type="number"
             min="0.01"
             step="0.01"
-            // value={enteredAmount}
+            value={enteredAmount}
             onChange={amountChangeHandler}
           />
         </div>
@@ -118,7 +118,7 @@ const ExpenseForm = () => {
             type="date"
             min="2019-01-01"
             max="2023-12-31"
-            // value={enteredDate}
+            value={enteredDate}
             onChange={dateChangeHandler}
           />
         </div>
