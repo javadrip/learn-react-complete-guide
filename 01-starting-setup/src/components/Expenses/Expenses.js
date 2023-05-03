@@ -11,9 +11,25 @@ const Expenses = props => {
     setFilteredYear(selectedYear);
   };
 
+  // Filter the expenses by year.
   const filteredExpenses = props.items.filter(expense => {
     return expense.date.getFullYear().toString() === filteredYear;
   });
+
+  // Conditional content: Show a message if there are no expenses for the selected year.
+  let expensesContent = <p>No expenses found.</p>;
+
+  // Conditional content: Show the expenses for the selected year.
+  if (filteredExpenses.length > 0) {
+    expensesContent = filteredExpenses.map(expense => (
+      <ExpenseItem
+        key={expense.id}
+        title={expense.title}
+        amount={expense.amount}
+        date={expense.date}
+      />
+    ));
+  }
 
   return (
     <div>
@@ -23,14 +39,8 @@ const Expenses = props => {
           selectedYear={filteredYear}
           onFilterYear={filterYearHandler}
         />
-        {filteredExpenses.map(expense => (
-          <ExpenseItem
-            key={expense.id}
-            title={expense.title}
-            amount={expense.amount}
-            date={expense.date}
-          />
-        ))}
+        {/* Displaying expenses for the year {filteredYear}. */}
+        {expensesContent}
       </Card>
     </div>
   );
