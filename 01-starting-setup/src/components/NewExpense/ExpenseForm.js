@@ -77,7 +77,7 @@ const ExpenseForm = props => {
     // This is required because the data is stored in multiple states instead of a single state
     const expenseData = {
       title: enteredTitle,
-      amount: enteredAmount,
+      amount: +enteredAmount,
       date: new Date(enteredDate),
     };
 
