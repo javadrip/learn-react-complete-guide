@@ -21,15 +21,17 @@ const ExpenseItem = props => {
   };
 
   return (
-    // The content between the Card tags is passed to the Card component as props.children.
-    <Card className="expense-item">
-      <ExpenseDate date={props.date} />
-      <div className="expense-item__description">
-        <h2>{title}</h2>
-        <div className="expense-item__price">${props.amount}</div>
-      </div>
-      <button onClick={clickHandler}>Change title</button>
-    </Card>
+    <li>
+      {/* The content between the Card tags is passed to the Card component as props.children. */}
+      <Card className="expense-item">
+        <ExpenseDate date={props.date} />
+        <div className="expense-item__description">
+          <h2>{title}</h2>
+          <div className="expense-item__price">${props.amount}</div>
+        </div>
+        <button onClick={clickHandler}>Change title</button>
+      </Card>
+    </li>
   );
 };
 
