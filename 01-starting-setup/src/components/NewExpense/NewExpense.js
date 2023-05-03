@@ -11,10 +11,15 @@ const NewExpense = props => {
       id: Math.random().toString(), // Add a new property
     };
     props.onAddExpense(expenseData); // Pass the data up to the parent component
+    setIsEditing(false); // Close the form
   };
 
   const startEditingHandler = () => {
     setIsEditing(true);
+  };
+
+  const stopEditingHandler = () => {
+    setIsEditing(false);
   };
 
   return (
@@ -22,7 +27,13 @@ const NewExpense = props => {
       {!isEditing && (
         <button onClick={startEditingHandler}>Add New Expense</button>
       )}
-      {isEditing && <ExpenseForm onSaveExpenseData={saveExpenseDataHandler} />}
+      {isEditing && (
+        <ExpenseForm
+          onSaveExpenseData={saveExpenseDataHandler}
+          // Passes function stopEditingHandler() as a value to ExpenseForm.js
+          onCancel={stopEditingHandler}
+        />
+      )}
     </div>
   );
 };
