@@ -19,6 +19,7 @@ const ExpensesChart = props => {
   for (const expense of props.expenses) {
     // The month is zero-based i.e. January is 0, February is 1, etc.
     const expenseMonth = expense.date.getMonth();
+    // Since expenseMonth is a number, we can use it as an index to access the value property of the chartDataPoints array.
     chartDataPoints[expenseMonth].value += expense.amount;
   }
 
