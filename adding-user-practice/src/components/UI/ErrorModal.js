@@ -28,6 +28,7 @@ const ErrorModal = props => {
     <div>
       {ReactDOM.createPortal(
         <Backdrop onConfirm={props.onConfirm} />,
+        // This is the div with the id of backdrop-root in public/index.html
         document.getElementById("backdrop-root")
       )}
       {ReactDOM.createPortal(
@@ -36,6 +37,7 @@ const ErrorModal = props => {
           message={props.message}
           onConfirm={props.onConfirm}
         />,
+        // This is the div with the id of overlay-root in public/index.html
         document.getElementById("overlay-root")
       )}
     </div>
