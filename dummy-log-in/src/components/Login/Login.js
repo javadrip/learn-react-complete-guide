@@ -1,24 +1,39 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 
 import Card from "../UI/Card/Card";
 import classes from "./Login.module.css";
 import Button from "../UI/Button/Button";
 
+const emailReducer = (state, action) => {
+  if (action.type === "USER_INPUT") {
+    return { value: action.val, isValid: action.val.includes("@") };
+  }
+  if (action.type === "INPUT_BLUR") {
+    return { value: state.value, isValid: state.value.includes("@") };
+  }
+  return { value: "", isValid: false };
+};
+
 const Login = props => {
-  const [enteredEmail, setEnteredEmail] = useState("");
-  const [emailIsValid, setEmailIsValid] = useState();
+  // const [enteredEmail, setEnteredEmail] = useState("");
+  // const [emailIsValid, setEmailIsValid] = useState();
   const [enteredPassword, setEnteredPassword] = useState("");
   const [passwordIsValid, setPasswordIsValid] = useState();
   const [formIsValid, setFormIsValid] = useState(false);
+
+  const [emailState, dispatchEmail] = useReducer(emailReducer, {
+    value: "",
+    isValid: null,
+  });
 
   useEffect(() => {
     // Debouncing using setTimeout
     const identifier = setTimeout(() => {
       console.log("Checking form validity!");
 
-      setFormIsValid(
-        enteredEmail.includes("@") && enteredPassword.trim().length > 6
-      );
+      // setFormIsValid(
+      //   enteredEmail.includes("@") && enteredPassword.trim().length > 6
+      // );
     }, 500);
 
     // Runs before the next useEffect function execution
@@ -28,10 +43,15 @@ const Login = props => {
       clearTimeout(identifier);
     };
     // setFormIsValid is omitted from the dependency array because state updating functions never change by default
-  }, [enteredEmail, enteredPassword]);
+    // }, [enteredEmail, enteredPassword]);
+    // If using useReducer hook
+  }, []);
 
   const emailChangeHandler = event => {
-    setEnteredEmail(event.target.value);
+    // setEnteredEmail(event.target.value);
+
+    // If using useEffect hook
+    dispatchEmail({ type: "USER_INPUT", val: event.target.value });
 
     setFormIsValid(
       event.target.value.includes("@") && enteredPassword.trim().length > 6
@@ -42,12 +62,18 @@ const Login = props => {
     setEnteredPassword(event.target.value);
 
     setFormIsValid(
-      event.target.value.trim().length > 6 && enteredEmail.includes("@")
+      // If using useEffect hook
+      // event.target.value.trim().length > 6 && enteredEmail.includes("@")
+      // If using useReducer hook
+      event.target.value.trim().length > 6 && emailState.isValid
     );
   };
 
   const validateEmailHandler = () => {
-    setEmailIsValid(enteredEmail.includes("@"));
+    // If using useEffect hook
+    // setEmailIsValid(enteredEmail.includes("@"));
+    // If using useReducer hook
+    dispatchEmail({ type: "INPUT_BLUR" });
   };
 
   const validatePasswordHandler = () => {
@@ -56,7 +82,7 @@ const Login = props => {
 
   const submitHandler = event => {
     event.preventDefault();
-    props.onLogin(enteredEmail, enteredPassword);
+    props.onLogin(emailState.value, enteredPassword);
   };
 
   return (
@@ -64,14 +90,18 @@ const Login = props => {
       <form onSubmit={submitHandler}>
         <div
           className={`${classes.control} ${
-            emailIsValid === false ? classes.invalid : ""
+            // emailIsValid === false ? classes.invalid : ""
+            // If using useReducer hook
+            emailState.isValid === false ? classes.invalid : ""
           }`}
         >
           <label htmlFor="email">E-Mail</label>
           <input
             type="email"
             id="email"
-            value={enteredEmail}
+            // value={enteredEmail}
+            // If using useReducer hook
+            value={emailState.value}
             onChange={emailChangeHandler}
             onBlur={validateEmailHandler}
           />
