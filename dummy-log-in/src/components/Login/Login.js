@@ -40,14 +40,16 @@ const Login = props => {
     isValid: null,
   });
 
+  // Using destructuring to extract the isValid property from the emailState object
+  const { isValid: emailIsValid } = emailState;
+  const { isValid: passwordIsValid } = passwordState;
+
   useEffect(() => {
     // Debouncing using setTimeout
     const identifier = setTimeout(() => {
       console.log("Checking form validity!");
 
-      // setFormIsValid(
-      //   enteredEmail.includes("@") && enteredPassword.trim().length > 6
-      // );
+      setFormIsValid(emailIsValid && passwordIsValid);
     }, 500);
 
     // Runs before the next useEffect function execution
@@ -59,7 +61,7 @@ const Login = props => {
     // setFormIsValid is omitted from the dependency array because state updating functions never change by default
     // }, [enteredEmail, enteredPassword]);
     // If using useReducer hook
-  }, []);
+  }, [emailIsValid, passwordIsValid]);
 
   const emailChangeHandler = event => {
     // setEnteredEmail(event.target.value);
@@ -67,11 +69,11 @@ const Login = props => {
     // If using useEffect hook
     dispatchEmail({ type: "USER_INPUT", val: event.target.value });
 
-    setFormIsValid(
-      // event.target.value.includes("@") && enteredPassword.trim().length > 6
-      // If using useReducer hook
-      event.target.value.includes("@") && passwordState.isValid
-    );
+    // setFormIsValid(
+    // event.target.value.includes("@") && enteredPassword.trim().length > 6
+    // If using useReducer hook
+    // event.target.value.includes("@") && passwordState.isValid
+    // );
   };
 
   const passwordChangeHandler = event => {
@@ -80,12 +82,12 @@ const Login = props => {
     // If using useReducer hook
     dispatchPassword({ type: "USER_INPUT", val: event.target.value });
 
-    setFormIsValid(
-      // If using useEffect hook
-      // event.target.value.trim().length > 6 && enteredEmail.includes("@")
-      // If using useReducer hook
-      event.target.value.trim().length > 6 && emailState.isValid
-    );
+    // setFormIsValid(
+    // If using useEffect hook
+    // event.target.value.trim().length > 6 && enteredEmail.includes("@")
+    // If using useReducer hook
+    // event.target.value.trim().length > 6 && emailState.isValid
+    // );
   };
 
   const validateEmailHandler = () => {
