@@ -14,7 +14,7 @@ function App() {
     if (storedUserLoggedInInformation === "1") {
       setIsLoggedIn(true);
     }
-    // Empty dependency array means that the effect runs only once
+    // Effect runs only once if the dependency array is empty
   }, []);
 
   const loginHandler = (email, password) => {
