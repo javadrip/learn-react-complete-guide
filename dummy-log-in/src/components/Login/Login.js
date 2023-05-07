@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect, useReducer, useContext } from "react";
 
 import Card from "../UI/Card/Card";
 import classes from "./Login.module.css";
 import Button from "../UI/Button/Button";
+import AuthContext from "../../context/auth-context";
 
 const emailReducer = (state, action) => {
   if (action.type === "USER_INPUT") {
@@ -39,6 +40,8 @@ const Login = props => {
     value: "",
     isValid: null,
   });
+
+  const authCtx = useContext(AuthContext);
 
   // Using destructuring to extract the isValid property from the emailState object
   const { isValid: emailIsValid } = emailState;
@@ -109,30 +112,12 @@ const Login = props => {
     // props.onLogin(emailState.value, enteredPassword);
 
     // If using useReducer hook
-    props.onLogin(emailState.value, passwordState.value);
+    authCtx.onLogin(emailState.value, passwordState.value);
   };
 
   return (
     <Card className={classes.login}>
       <form onSubmit={submitHandler}>
-        <div
-          className={`${classes.control} ${
-            // emailIsValid === false ? classes.invalid : ""
-            // If using useReducer hook
-            emailState.isValid === false ? classes.invalid : ""
-          }`}
-        >
-          <label htmlFor="email">E-Mail</label>
-          <input
-            type="email"
-            id="email"
-            // value={enteredEmail}
-            // If using useReducer hook
-            value={emailState.value}
-            onChange={emailChangeHandler}
-            onBlur={validateEmailHandler}
-          />
-        </div>
         <div
           className={`${classes.control} ${
             // passwordIsValid === false ? classes.invalid : ""

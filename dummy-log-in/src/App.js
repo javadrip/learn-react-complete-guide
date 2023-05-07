@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 
 import Login from "./components/Login/Login";
 import Home from "./components/Home/Home";
@@ -6,46 +6,57 @@ import MainHeader from "./components/MainHeader/MainHeader";
 import AuthContext from "./context/auth-context";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // ================== MOVED TO auth-context.js ================== //
 
-  useEffect(() => {
-    // Check if the user is already logged in
-    const storedUserLoggedInInformation = localStorage.getItem("isLoggedIn");
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    if (storedUserLoggedInInformation === "1") {
-      setIsLoggedIn(true);
-    }
-    // Effect runs only once if the dependency array is empty
-  }, []);
+  // useEffect(() => {
+  //   // Check if the user is already logged in
+  //   const storedUserLoggedInInformation = localStorage.getItem("isLoggedIn");
 
-  const loginHandler = (email, password) => {
-    // We should of course check email and password
-    // But it's just a dummy/ demo anyways
+  //   if (storedUserLoggedInInformation === "1") {
+  //     setIsLoggedIn(true);
+  //   }
+  //   // Effect runs only once if the dependency array is empty
+  // }, []);
 
-    // Store the user data in the local storage on login
-    localStorage.setItem("isLoggedIn", "1");
-    setIsLoggedIn(true);
-  };
+  // const loginHandler = (email, password) => {
+  //   // We should of course check email and password
+  //   // But it's just a dummy/ demo anyways
 
-  const logoutHandler = () => {
-    // Remove the user data from the local storage on logout
-    localStorage.removeItem("isLoggedIn");
-    setIsLoggedIn(false);
-  };
+  //   // Store the user data in the local storage on login
+  //   localStorage.setItem("isLoggedIn", "1");
+  //   setIsLoggedIn(true);
+  // };
+
+  // const logoutHandler = () => {
+  //   // Remove the user data from the local storage on logout
+  //   localStorage.removeItem("isLoggedIn");
+  //   setIsLoggedIn(false);
+  // };
+
+  // ================== MOVED TO auth-context.js ================== //
+  const ctx = useContext(AuthContext);
 
   return (
-    <AuthContext.Provider
-      value={{
-        isLoggedIn: isLoggedIn,
-        onLogout: logoutHandler,
-      }}
-    >
-      <MainHeader isAuthenticated={isLoggedIn} onLogout={logoutHandler} />
+    // ================== MOVED TO index.js ================== //
+    // <AuthContext.Provider
+    //   value={{
+    //     isLoggedIn: isLoggedIn,
+    //     onLogout: logoutHandler,
+    //   }}
+    // >
+    // ================== MOVED TO index.js ================== //
+    <React.Fragment>
+      <MainHeader />
       <main>
-        {!isLoggedIn && <Login onLogin={loginHandler} />}
-        {isLoggedIn && <Home onLogout={logoutHandler} />}
+        {!ctx.isLoggedIn && <Login />}
+        {ctx.isLoggedIn && <Home />}
       </main>
-    </AuthContext.Provider>
+    </React.Fragment>
+    // ================== MOVED TO index.js ================== //
+    // </AuthContext.Provider>
+    // ================== MOVED TO index.js ================== //
   );
 }
 
