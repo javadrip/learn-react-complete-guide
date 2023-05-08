@@ -6,8 +6,8 @@ const HeaderCartButton = props => {
       <span>
         <CartIcon />
       </span>
-      <span></span>
-      <span></span>
+      <span>Your Cart</span>
+      <span>3</span>
     </button>
   );
 };
