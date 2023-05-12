@@ -7,6 +7,12 @@ const SimpleInput = props => {
 
   const nameInputChangeHandler = event => {
     setEnteredName(event.target.value);
+
+    // Not enteredName because it's not updated immediately
+    // event.target.value to update state with every keystroke
+    if (event.target.value.trim() !== "") {
+      setEnteredNameIsValid(true);
+    }
   };
 
   const nameInputBlurHandler = event => {
@@ -14,7 +20,6 @@ const SimpleInput = props => {
 
     if (enteredName.trim() === "") {
       setEnteredNameIsValid(false);
-      return;
     }
   };
 
