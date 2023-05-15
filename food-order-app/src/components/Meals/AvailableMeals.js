@@ -6,6 +6,7 @@ import Card from "../UI/Card";
 const AvailableMeals = () => {
   const [meals, setMeals] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [httpError, setHttpError] = useState();
 
   useEffect(() => {
     const fetchMeals = async () => {
@@ -13,6 +14,11 @@ const AvailableMeals = () => {
       const response = await fetch(
         "https://react-complete-guide-839f5-default-rtdb.asia-southeast1.firebasedatabase.app/meals.json"
       );
+
+      if (!response.ok) {
+        throw new Error("Something went wrong!");
+      }
+
       const responseData = await response.json();
 
       const loadedMeals = [];
@@ -30,13 +36,27 @@ const AvailableMeals = () => {
       setIsLoading(false);
     };
 
-    fetchMeals();
+    // fetchMeals() is an async function, so it returns a promise. If we throw an error inside the function, the promise will be rejected.
+    // We can't use try-catch to wrap fetchMeals() because we'll need to use await, but useEffect() doesn't allow us to use async-await directly.
+    // So we can use .catch() to catch any errors
+    fetchMeals().catch(error => {
+      setIsLoading(false);
+      setHttpError(error.message);
+    });
   }, []);
 
   if (isLoading) {
     return (
       <section className={classes.mealIsLoading}>
         <p>Loading...</p>
+      </section>
+    );
+  }
+
+  if (httpError) {
+    return (
+      <section className={classes.mealHttpError}>
+        <p>{httpError}</p>
       </section>
     );
   }
