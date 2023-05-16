@@ -79,5 +79,7 @@ const store = configureStore({
 // Using original redux
 // const store = createStore(counterReducer);
 
+// These actions are automatically exposed by redux toolkit
 export const counterActions = counterSlice.actions;
+export const authActions = authSlice.actions;
 export default store;
